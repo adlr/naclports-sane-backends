@@ -11,6 +11,9 @@
 # this script downloads, patches, and builds zlib for Native Client 
 #
 
+# NACL_SDK_ROOT=$(readlink -f /home/adlr/nacl_sdk/pepper_26) make libraries/sane-backends 2>&1 | tee log.txt
+
+
 NACLPORTS_CFLAGS="-O0"
 
 source pkg_info
@@ -24,13 +27,13 @@ CustomExtractStep() {
 }
 
 CustomConfigureStep() {
-  CXXFLAGS="-O0 -g" CFLAGS="-I${NACL_SDK_ROOT}/include" DefaultConfigureStep --disable-ipv6 --disable-preload --enable-latex=no --enable-avahi=no --enable-static=no --enable-shared=yes
+  CXXFLAGS="-O0 -g" CFLAGS="-I${NACL_SDK_ROOT}/include" DefaultConfigureStep --disable-ipv6 --enable-latex=no --enable-avahi=no --enable-static=yes --enable-shared=no
   #Banner "Configuring ${PACKAGE_NAME}"
   #ChangeDir ${NACL_PACKAGES_REPOSITORY}/${PACKAGE_NAME}
   ## TODO: side-by-side install
   #CC=${NACLCC} AR="${NACLAR} -r" RANLIB=${NACLRANLIB} CFLAGS="-Dunlink=puts" ./configure\
   #   --prefix=${NACLPORTS_PREFIX} --disable-ipv6 --disable-preload --disable-latex --host=${NACL_CROSS_PREFIX}
-  echo "#define HAVE_SIGPROCMASK 1" >> include/sane/config.h
+  #echo "#define HAVE_SIGPROCMASK 1" >> include/sane/config.h
 }
 
 
@@ -50,8 +53,10 @@ CustomPackageInstall() {
   #CustomBuildStep
   DefaultBuildStep
 
-  echo ${NACLCXX} -g -O0 -o adlrsane.nexe ../nacl_main.cc -I${NACL_SDK_ROOT}/include `find . -type f | grep \\\\.a\\$  | xargs -n 1 dirname | uniq | xargs -I X echo -LX` `find . -type f | grep \\\\.a\\$ | xargs -n 1 basename | sed 's/^lib\\(.*\\)\\.a/-l\\1/g'` -lppapi_cpp -lppapi
-  ${NACLCXX} -g -O0 -o adlrsane.nexe ../nacl_main.cc -I${NACL_SDK_ROOT}/include `find . -type f | grep \\\\.a\\$  | xargs -n 1 dirname | uniq | xargs -I X echo -LX` `find . -type f | grep \\\\.a\\$ | xargs -n 1 basename | sed 's/^lib\\(.*\\)\\.a/-l\\1/g'` -lppapi_cpp -lppapi
+  echo ${NACLCXX} -g -O0 -o adlrsane.nexe ../nacl_main.cc -I${NACL_SDK_ROOT}/include backend/.libs/libsane.a sanei/.libs/libsanei.a lib/.libs/liblib.a lib/.libs/libfelib.a -lppapi_cpp -lppapi
+  ${NACLCXX} -g -O0 -o adlrsane.nexe ../nacl_main.cc -I${NACL_SDK_ROOT}/include backend/.libs/libsane.a sanei/.libs/libsanei.a lib/.libs/liblib.a lib/.libs/libfelib.a -lppapi_cpp -lppapi
+  #echo ${NACLCXX} -g -O0 -o adlrsane.nexe ../nacl_main.cc -I${NACL_SDK_ROOT}/include `find . -type f | grep \\\\.a\\$  | xargs -n 1 dirname | uniq | xargs -I X echo -LX` `find . -type f | grep \\\\.a\\$ | xargs -n 1 basename | sed 's/^lib\\(.*\\)\\.a/-l\\1/g'` `find . -type f | grep \\\\.a\\$ | xargs -n 1 basename | sed 's/^lib\\(.*\\)\\.a/-l\\1/g'` -lppapi_cpp -lppapi
+  #${NACLCXX} -g -O0 -o adlrsane.nexe ../nacl_main.cc -I${NACL_SDK_ROOT}/include `find . -type f | grep \\\\.a\\$  | xargs -n 1 dirname | uniq | xargs -I X echo -LX` `find . -type f | grep \\\\.a\\$ | xargs -n 1 basename | sed 's/^lib\\(.*\\)\\.a/-l\\1/g'` `find . -type f | grep \\\\.a\\$ | xargs -n 1 basename | sed 's/^lib\\(.*\\)\\.a/-l\\1/g'` -lppapi_cpp -lppapi
 
   DefaultInstallStep
   DefaultCleanUpStep
