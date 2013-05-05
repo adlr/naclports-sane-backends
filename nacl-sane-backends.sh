@@ -27,13 +27,14 @@ CustomExtractStep() {
 }
 
 CustomConfigureStep() {
-  BACKENDS="plustek" CXXFLAGS="-O0 -g" CFLAGS="-I${NACL_SDK_ROOT}/include" DefaultConfigureStep --disable-ipv6 --enable-latex=no --enable-avahi=no --enable-static=yes --enable-shared=no --enable-pthread
+  BACKENDS="plustek" CXXFLAGS="-O0 -g" CFLAGS="-I${NACL_SDK_ROOT}/include" DefaultConfigureStep --disable-ipv6 --enable-latex=no --enable-avahi=no --enable-static=yes --enable-shared=no --enable-pthread --enable-libusb_1_0
   #Banner "Configuring ${PACKAGE_NAME}"
   #ChangeDir ${NACL_PACKAGES_REPOSITORY}/${PACKAGE_NAME}
   ## TODO: side-by-side install
   #CC=${NACLCC} AR="${NACLAR} -r" RANLIB=${NACLRANLIB} CFLAGS="-Dunlink=puts" ./configure\
   #   --prefix=${NACLPORTS_PREFIX} --disable-ipv6 --disable-preload --disable-latex --host=${NACL_CROSS_PREFIX}
   #echo "#define HAVE_SIGPROCMASK 1" >> include/sane/config.h
+  echo "#define HAVE_LIBUSB_1_0 1" >> include/sane/config.h
 }
 
 
