@@ -53,8 +53,8 @@ CustomPackageInstall() {
   #CustomBuildStep
   DefaultBuildStep
 
-  echo ${NACLCXX} -g -O0 -o adlrsane.nexe ../nacl_main.cc -I${NACL_SDK_ROOT}/include backend/.libs/libsane.a sanei/.libs/libsanei.a lib/.libs/liblib.a lib/.libs/libfelib.a -lppapi_cpp -lppapi
-  ${NACLCXX} -g -O0 -o adlrsane.nexe ../nacl_main.cc -I${NACL_SDK_ROOT}/include backend/.libs/libsane.a sanei/.libs/libsanei.a lib/.libs/liblib.a lib/.libs/libfelib.a -lppapi_cpp -lppapi
+  echo ${NACLCXX} -g -O0 -o adlrsane.nexe ../nacl_main.cc -I${NACL_SDK_ROOT}/include -I../include backend/.libs/libsane.a sanei/.libs/libsanei.a lib/.libs/liblib.a lib/.libs/libfelib.a -lppapi_cpp -lppapi
+  ${NACLCXX} -g -O0 -o adlrsane.nexe ../nacl_main.cc -I${NACL_SDK_ROOT}/include -I../include backend/.libs/libsane.a sanei/.libs/libsanei.a lib/.libs/liblib.a lib/.libs/libfelib.a -lppapi_cpp -lppapi
   #echo ${NACLCXX} -g -O0 -o adlrsane.nexe ../nacl_main.cc -I${NACL_SDK_ROOT}/include `find . -type f | grep \\\\.a\\$  | xargs -n 1 dirname | uniq | xargs -I X echo -LX` `find . -type f | grep \\\\.a\\$ | xargs -n 1 basename | sed 's/^lib\\(.*\\)\\.a/-l\\1/g'` `find . -type f | grep \\\\.a\\$ | xargs -n 1 basename | sed 's/^lib\\(.*\\)\\.a/-l\\1/g'` -lppapi_cpp -lppapi
   #${NACLCXX} -g -O0 -o adlrsane.nexe ../nacl_main.cc -I${NACL_SDK_ROOT}/include `find . -type f | grep \\\\.a\\$  | xargs -n 1 dirname | uniq | xargs -I X echo -LX` `find . -type f | grep \\\\.a\\$ | xargs -n 1 basename | sed 's/^lib\\(.*\\)\\.a/-l\\1/g'` `find . -type f | grep \\\\.a\\$ | xargs -n 1 basename | sed 's/^lib\\(.*\\)\\.a/-l\\1/g'` -lppapi_cpp -lppapi
 
