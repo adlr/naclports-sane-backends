@@ -27,7 +27,7 @@ CustomExtractStep() {
 }
 
 CustomConfigureStep() {
-  CXXFLAGS="-O0 -g" CFLAGS="-I${NACL_SDK_ROOT}/include" DefaultConfigureStep --disable-ipv6 --enable-latex=no --enable-avahi=no --enable-static=yes --enable-shared=no
+  BACKENDS="plustek" CXXFLAGS="-O0 -g" CFLAGS="-I${NACL_SDK_ROOT}/include" DefaultConfigureStep --disable-ipv6 --enable-latex=no --enable-avahi=no --enable-static=yes --enable-shared=no --enable-pthread
   #Banner "Configuring ${PACKAGE_NAME}"
   #ChangeDir ${NACL_PACKAGES_REPOSITORY}/${PACKAGE_NAME}
   ## TODO: side-by-side install
