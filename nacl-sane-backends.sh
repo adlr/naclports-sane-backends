@@ -34,7 +34,7 @@ CustomConfigureStep() {
   #CC=${NACLCC} AR="${NACLAR} -r" RANLIB=${NACLRANLIB} CFLAGS="-Dunlink=puts" ./configure\
   #   --prefix=${NACLPORTS_PREFIX} --disable-ipv6 --disable-preload --disable-latex --host=${NACL_CROSS_PREFIX}
   #echo "#define HAVE_SIGPROCMASK 1" >> include/sane/config.h
-  echo "#define HAVE_LIBUSB_1_0 1" >> include/sane/config.h
+  #echo "#define HAVE_LIBUSB_1_0 1" >> include/sane/config.h
 }
 
 
